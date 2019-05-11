@@ -27,7 +27,8 @@ function news_titles(Data, category) {
         pEl = document.createElement("p"), imgEl = document.createElement("img"),
         aLink = document.createElement("a"), active_liItem = document.querySelector(".news-category"),
         title = document.querySelector(".title_for_news"), main_img = document.querySelector(".main_img"),
-        subtitle = document.querySelector(".subtitle"), temp = [], loader = document.querySelector('.load');
+        subtitle = document.querySelector(".subtitle"), temp = [], loader = document.querySelector('.load'),
+        pElDate = document.createElement("p");
 
     main_img.addEventListener("load", function () {
         loader.style.display = 'none';
@@ -69,18 +70,21 @@ function news_titles(Data, category) {
 
         active_liItem.innerHTML = category.toUpperCase();
 
+        liItem.appendChild(pElDate);
         liItem.appendChild(imgEl);
         liItem.appendChild(pEl);
         liItem.style.display = "inline-block";
         liItem.style.border = "1px solid black";
         liItem.style.textAlign = "center";
         liItem.style.margin = "1px";
+        liItem.style.padding = "0px 15px";
         loader.style.display = 'none';
-
+        console.log(Data);
         for (var i = 0; i < Data.forecast.forecastday.length; i++) {
             var newNode = liItem.cloneNode(true);
+            newNode.querySelectorAll("p")[0].innerHTML =`${Data.forecast.forecastday[i].date}<br>`;
             newNode.querySelector("img").setAttribute('src', `http:${Data.forecast.forecastday[i].day.condition.icon}`);
-            newNode.querySelector("p").innerHTML = `<br>Temp (in C): ${Data.forecast.forecastday[i].day.mintemp_c} ... ${Data.forecast.forecastday[i].day.maxtemp_c}<br>`;
+            newNode.querySelectorAll("p")[1].innerHTML = `<br>Temp (in C):<br> ${Data.forecast.forecastday[i].day.mintemp_c} ... ${Data.forecast.forecastday[i].day.maxtemp_c}<br>`;
             parent.appendChild(newNode);
         }
 
@@ -150,7 +154,6 @@ function Request_exchange() {
         }
         else {
             var Data = JSON.parse(xhr.responseText);
-            sportsNews(Data);
             Info.innerHTML = `Buy CAD: ${Data.rates.CAD}<br> Buy CHF: ${Data.rates.CHF}<br>
                 Buy EUR: ${Data.rates.EUR}<br> Buy GBP: ${Data.rates.GBP}<br>`;
         }

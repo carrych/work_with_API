@@ -31,6 +31,14 @@ function Init() {
     Request_exchange();
     Request_weather("Washington");
 
+    document.getElementById('US').addEventListener("click", function () {
+        localStorage.setItem("language", "us")
+    }, false);
+
+    document.getElementById('UA').addEventListener("click", function () {
+        localStorage.setItem("language", "ua")
+    }, false);
+
     document.querySelector(`.category_1`).addEventListener("click", function () {
         localStorage.setItem("category", Request.ather_category[0])
     }, false);
@@ -63,6 +71,14 @@ function Init() {
         localStorage.setItem("category", Request.ather_category[7])
     }, false);
 
+    // for (var i = 0; i < Request.category.length; i++){
+    //     var temp = document.getElementById(Request.category[i]);
+    //     console.log(temp);
+    //     temp.addEventListener("click", function () {
+    //         localStorage.setItem("category", Request.category[i])
+    //     }, false);
+    // }
+
     document.getElementById(Request.category[0]).addEventListener("click", function () {
         localStorage.setItem("category", Request.category[0])
     }, false);
@@ -88,10 +104,6 @@ function Init() {
     }, false);
 }
 
-function sportsNews(news) {
-    console.log(news);
-}
-
 function showNews(Data, category) {
 
     var Img = document.querySelector(`.img-${category}-title`);
@@ -101,3 +113,31 @@ function showNews(Data, category) {
 }
 
 showNews.name = "showNews";
+
+
+function US_interface() {
+    var menu = document.getElementById('menu'), video_text = document.querySelector('.video-text'),
+        input = document.getElementById('topSearch'),
+        exchange = document.querySelector('.exchange_title'), title = document.querySelector('.title1')
+
+    ;
+
+    for (var i = 0; i < Request.category.length; i++){
+        var temp = document.getElementById(Request.category[i]);
+        temp.innerHTML = US_interface.news[i];
+    }
+
+        for (var i = 0; i < menu.childNodes.length; i++) {
+            var temp = menu.childNodes[i].childNodes[0];
+            if (temp.nodeType != 1)
+                continue;
+            for (var j = 0; j < US_interface.us_menu.length; j++)
+                temp.innerHTML = US_interface.us_menu[j];
+        }
+
+    video_text.innerHTML = "Submit Video";
+
+}
+
+US_interface.us_menu = ["Home", "Language", "Archive", "Pages", "Mega", "About", "Contact"];
+US_interface.news = ["SPORTS NEWS >>", "ENTERTAINMENT NEWS >>", "HEALTH NEWS >>", "SCIENCE NEWS >>", "TECHNOLOGY NEWS >>"]
